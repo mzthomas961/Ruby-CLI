@@ -14,7 +14,6 @@ ActiveRecord::Schema.define(version: 2021_01_25_185113) do
 
   create_table "forum_threads", force: :cascade do |t|
     t.integer "user_id"
-    t.integer "thread_id"
     t.string "body"
     t.string "title"
     t.datetime "created_at", null: false
