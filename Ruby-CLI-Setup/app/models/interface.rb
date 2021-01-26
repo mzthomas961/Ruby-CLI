@@ -36,12 +36,19 @@ class Interface
             username = prompt.ask("Enter your username:")
         end
         password = prompt.mask("Enter your password")
-        while !User.find_by(username: username).password == password
+        while User.find_by(username: username).password != password
             puts "Invalid password - please try again."
             password = prompt.mask("Enter your password")
         end
         puts "Successfully logged in! Welcome!"
-        #forum output
+        show_threads
     end
-    
+
+    def show_threads
+        all_threads = ForumThread.all
+        chosen_thread = prompt.select("Choose a thread") do |menu|
+            all_threads.each{ |ft| menu.choice "#{ft.title}", -> {puts "thread id #{ft.id}"}}
+        end
+    end
+
 end

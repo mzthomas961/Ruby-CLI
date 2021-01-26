@@ -5,6 +5,7 @@ User.reset_pk_sequence
 ForumThread.reset_pk_sequence
 Reply.reset_pk_sequence
 
+easy = User.create(username: "11", password: "222222")
 james = User.create(username: "james123", password: "jamesjamesjames")
 will = User.create(username: "william456", password: "willx3")
 matt = User.create(username: "mzthomas96", password: "socialsecurity")
@@ -13,6 +14,9 @@ thread1 = ForumThread.create(title: "my dog is sick!", body: "my dog is super si
 reply1 = Reply.create(forum_thread_id:thread1.id,user_id: will.id, body: "get rekt")
 reply2 = Reply.create(forum_thread_id:thread1.id, user_id:matt.id, body: "sorry about that Will guy")
 reply3 = Reply.create(forum_thread_id:thread1.id, user_id:james.id, body: "go to the vet, dummy")
+
+thread2 = ForumThread.create(title: "wow cool forum", body: "super great forum guys", user_id: easy.id)
+reply4 = Reply.create(forum_thread_id: thread2.id, user_id: will.id, body: "i agree")
 
 
 
