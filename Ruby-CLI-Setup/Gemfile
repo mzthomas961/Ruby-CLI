@@ -13,5 +13,5 @@ gem "colorize"
 gem "activerecord-reset-pk-sequence"
 gem "tty-prompt"
 gem "tty-table"
-gem "tty-box"
+gem "tty-reader"
 

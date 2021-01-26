@@ -52,10 +52,6 @@ GEM
     strings-ansi (0.2.0)
     thread_safe (0.3.6)
     tilt (2.0.10)
-    tty-box (0.7.0)
-      pastel (~> 0.8)
-      strings (~> 0.2.0)
-      tty-cursor (~> 0.7)
     tty-color (0.6.0)
     tty-cursor (0.7.1)
     tty-prompt (0.23.0)
@@ -89,9 +85,9 @@ DEPENDENCIES
   require_all
   sinatra-activerecord
   sqlite3
-  tty-box
   tty-prompt
+  tty-reader
   tty-table
 
 BUNDLED WITH
-   2.2.4
+   2.2.5
