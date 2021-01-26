@@ -9,6 +9,15 @@ class User < ActiveRecord::Base
     }
     end
 
+    #Return user's total post count by user ID
+    def self.return_post_count(id)
+        if id == nil
+            " "
+        else 
+            User.find(id).show_all_replies.count
+        end
+    end
+
     def delete_reply(id)
         post = Reply.find_by(id: id, user_id: self.id)
         if post == nil 

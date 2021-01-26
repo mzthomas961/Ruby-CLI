@@ -6,12 +6,13 @@ class ForumThread < ActiveRecord::Base
     def print_forum_thread
       table = TTY::Table.new ["#{" "*5}",self.title],[[User.return_username(self.user_id), self.body]]
       
+      puts table.render(:unicode, resize: true, multiline: true)
 
       Reply.where(forum_thread_id: self.id).each { |reply|
-        table << [User.return_username(reply.user_id), reply.body]
+        puts reply.table_format
       }
 
-      puts table.render(:unicode, resize: true, multiline: true)
+      
       # puts self.title
       # puts User.return_username(self.user_id)
       # puts self.body 

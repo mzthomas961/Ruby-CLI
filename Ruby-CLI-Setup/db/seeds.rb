@@ -5,7 +5,7 @@ User.reset_pk_sequence
 ForumThread.reset_pk_sequence
 Reply.reset_pk_sequence
 
-easy = User.create(username: "11", password: "222222")
+easy = User.create(username: "11", password: "22")
 james = User.create(username: "james123", password: "jamesjamesjames")
 will = User.create(username: "william456", password: "willx3")
 matt = User.create(username: "mzthomas96", password: "socialsecurity")
