@@ -48,4 +48,8 @@ class User < ActiveRecord::Base
         end
     end
 
+    def self.create_user(username, password)
+        User.create(username: username, password: password)
+    end
+
 end

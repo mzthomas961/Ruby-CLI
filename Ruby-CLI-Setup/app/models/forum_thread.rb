@@ -4,13 +4,21 @@ class ForumThread < ActiveRecord::Base
     has_many :replies 
 
     def print_forum_thread
-      puts self.title
-      puts User.return_username(self.user_id)
-      puts self.body 
+      table = TTY::Table.new ["#{" "*5}",self.title],[[User.return_username(self.user_id), self.body]]
+      
+
       Reply.where(forum_thread_id: self.id).each { |reply|
-        puts User.return_username(reply.user_id)
-        puts reply.body
+        table << [User.return_username(reply.user_id), reply.body]
       }
+
+      puts table.render(:unicode, resize: true, multiline: true)
+      # puts self.title
+      # puts User.return_username(self.user_id)
+      # puts self.body 
+      # Reply.where(forum_thread_id: self.id).each { |reply|
+      #   puts User.return_username(reply.user_id)
+      #   puts reply.body
+      # }
     end
 
     def self.print_all_threads 
@@ -22,3 +30,5 @@ class ForumThread < ActiveRecord::Base
     end
       
 end
+
+
