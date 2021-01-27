@@ -41,8 +41,8 @@ class User < ActiveRecord::Base
         puts "Account and all posts associations removed."
     end
 
-    def create_reply(id)
-        Reply.create(body: "...", user_id: self.id, forum_thread_id: id)
+    def create_reply(id, body)
+        Reply.create(body: body, user_id: self.id, forum_thread_id: id)
     end
 
     # Edit reply method
