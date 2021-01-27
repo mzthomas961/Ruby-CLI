@@ -59,6 +59,7 @@ class Interface
             all_threads.each{ |ft| menu.choice "#{ft.title}", -> {ForumThread.find(ft.id).print_forum_thread
                 thread_menu(ft.id)}}
             menu.choice "Create new thread", ->  { thread_starter }
+            menu.choice "Settings", -> {user_settings}
 
         end
     end
@@ -87,6 +88,23 @@ def thread_menu (thread_id)
         menu.choice "Go back to threads", -> {show_threads}
     end
 end
+
+def user_settings
+    prompt.select ("Choose an option") do |menu|
+        menu.choice "Delete account", -> {answer = prompt.yes? ("Are you sure?")
+        if answer 
+              User.find(user_id).delete_account 
+                user_id = nil 
+                welcome
+        else
+           puts "Glad you're staying" 
+            user_settings
+            end
+        }
+        menu.choice "Return to threads", -> {show_threads}
+    end            
+end
+
 
 
     
