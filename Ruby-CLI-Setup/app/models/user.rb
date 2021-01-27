@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
         if id == nil
             " "
         else 
-            User.find(id).show_all_replies.count
+            "Post count: #{User.find(id).show_all_replies.count}"
         end
     end
 

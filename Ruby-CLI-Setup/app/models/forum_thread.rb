@@ -4,13 +4,17 @@ class ForumThread < ActiveRecord::Base
     has_many :replies 
 
     def print_forum_thread
-      table = TTY::Table.new ["#{" "*5}",self.title],[[User.return_username(self.user_id), self.body]]
-      
-      puts table.render(:unicode, resize: true, multiline: true)
+      table = TTY::Table.new(header: ["#{" "*5}",self.title])
+      table << :separator
 
+      table << ["#{User.return_username(self.user_id)} \n#{User.return_post_count(user_id)}", self.body]
+    
       Reply.where(forum_thread_id: self.id).each { |reply|
-        puts reply.table_format
+        puts "Enumerating reply"
+        table << :separator << reply.reply_array
       }
+
+      puts table.render(:unicode, resize: true, multiline: true) 
 
       
       # puts self.title

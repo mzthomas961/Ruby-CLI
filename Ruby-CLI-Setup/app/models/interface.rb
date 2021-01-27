@@ -4,9 +4,12 @@ class Interface
 
     def initialize
         @prompt = TTY::Prompt.new
+        escape_to_welcome
+        LoadAssets.load_logo
     end
 
     def welcome
+       
         prompt.select("\nWelcome to the Forum! Choose an action -") do |menu|
             menu.choice "Login", -> {login}
             menu.choice "Create Account", -> {account_creation}
@@ -16,7 +19,6 @@ class Interface
     end
 
     def account_creation
-        escape_to_previous (__method__)
 
         username = prompt.ask("Choose a username! Or press escape to go back.\n")
         while User.find_by(username: username) || username == ""
@@ -35,7 +37,6 @@ class Interface
     end
 
     def login
-        escape_to_previous (__method__)
 
         username = prompt.ask("Enter your username:\n")
         while !User.find_by(username: username)
@@ -47,9 +48,10 @@ class Interface
             puts "Invalid password - please try again."
             password = prompt.mask("Enter your password:")
         end
-        puts "Successfully logged in! Welcome!\n"
-
+        
         self.user_id = User.find_by(username: username).id
+        puts "Successfully logged in! Welcome #{User.return_username(user_id)}!\n"
+
         show_threads
     end
 
@@ -66,7 +68,7 @@ class Interface
 
 
     def thread_starter
-        escape_to_previous (__method__)
+        
         title = prompt.ask("What is your thread title?\n")
         while title == ""
             puts "No title entered.\n"
@@ -78,60 +80,45 @@ class Interface
     thread_menu(new_thread.id)
     end
 
-def thread_menu (thread_id)
-    prompt.select ("What would you like to do") do |menu|
-        menu.choice "Reply to thread", -> {
+    def thread_menu (thread_id)
+        prompt.select ("What would you like to do") do |menu|
+            menu.choice "Reply to thread", -> {
             body = prompt.ask ("Enter your reply\n")
             User.find(user_id).create_reply(thread_id,body)
             ForumThread.find(thread_id).print_forum_thread
             thread_menu(thread_id)}
         menu.choice "Go back to threads", -> {show_threads}
+        end
     end
-end
 
-def user_settings
-    prompt.select ("Choose an option") do |menu|
-        menu.choice "Delete account", -> {answer = prompt.yes? ("Are you sure?")
-        if answer 
-              User.find(user_id).delete_account 
-                user_id = nil 
-                welcome
-        else
-           puts "Glad you're staying" 
-            user_settings
-            end
-        }
-        menu.choice "Return to threads", -> {show_threads}
-    end            
-end
+    def user_settings
+        prompt.select ("Choose an option") do |menu|
+            menu.choice "Delete account", -> {answer = prompt.yes? ("Are you sure?")
+            if answer 
+                User.find(user_id).delete_account 
+                    user_id = nil 
+                    welcome
+            else
+            puts "Glad you're staying" 
+                user_settings
+                end
+            }
+            menu.choice "Return to threads", -> {show_threads}
+        end            
+    end
 
 
 
     
 
     private 
-    def escape_to_previous (current_method)
+    def escape_to_welcome
         prompt.on(:keypress) do |event|
             if event.key.name == :escape
-                puts current_method
-                # binding.pry
-                if current_method == :account_creation || current_method == :login
-                    welcome
-                elsif  current_method == :thread_starter 
-                    show_threads
-                end
+                welcome
             end  
         end
     end
-
-    # def escape_to_threads
-    #     prompt.on(:keypress) do |event|
-    #         if event.key.name == :escape
-    #             puts "Escaping to threads"
-    #             show_threads
-    #         end  
-    #     end
-    # end
 
 
 end
