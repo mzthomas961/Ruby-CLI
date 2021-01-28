@@ -6,14 +6,20 @@ class ForumThread < ActiveRecord::Base
     def print_forum_thread
       table = TTY::Table.new(header: ["#{" "*5}", self.title.bold])
 
-      table << ["\n#{User.return_username(self.user_id)} \n#{User.return_post_count(user_id)}", "#{self.created_at}\n\n#{self.body}"]
+      if user
+        userinfo = "\n#{User.return_username(self.user_id)} \n#{self.user.return_post_count}"
+      else 
+        userinfo = "\nDeleted User"
+      end
+
+      table << [userinfo, "#{self.created_at}\n\n#{self.body}"]
     
       replies.each { |reply|
-        table << ["#{"─"*20}", "#{"─"*50}"]
+        table << ["#{"─"*20}", "#{"─"*90}"]
         table << reply.reply_array
       }
 
-      puts table.render(:unicode, multiline: true, padding: [1, 0])
+      puts table.render(:unicode, multiline: true, padding: [1, 0], column_widths: [20, 90])
 
     end
 

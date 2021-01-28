@@ -1,7 +1,7 @@
 class Interface
     attr_reader :prompt
     attr_accessor :user_id
-
+    
     #Initialize interface - allow for Esc capablity to return to Welcome, load forum logo
     def initialize
 
@@ -14,7 +14,7 @@ class Interface
     #Start app - open login/create acct menu, or login as Guest
     def welcome
         self.user_id = nil
-        prompt.select("\nWelcome to the Forum! Choose an action - /n (Press Esc at any time to return to this menu!") do |menu|
+        prompt.select("\nWelcome to the Forum! Choose an action - \n (Press Esc at any time to return to this menu!") do |menu|
             menu.choice "Login", -> {login}
             menu.choice "Create Account", -> {account_creation}
             menu.choice "Browse as a Guest", -> {
@@ -92,7 +92,7 @@ class Interface
 
     #Create a new thread based on logged in user, then open new thread
     def thread_starter
-        
+
         title = prompt.ask("What is your thread title?\n")
         while title == ""
             puts "No title entered.\n"
@@ -113,8 +113,18 @@ class Interface
             #Ensure guests cannot reply to threads
             if user_id != nil
                 menu.choice "Reply to thread", -> {
-                    body = prompt.ask ("Enter your reply\n")
-                    User.find(user_id).create_reply(thread_id,body)
+                    prompt.select("How would you like to reply?") do |menu|
+                        menu.choice "Random cat fact!", -> {
+                            User.find(user_id).create_reply(thread_id, APICalls.catfact)
+                        }
+                        menu.choice "Random advice!", -> {
+                            User.find(user_id).create_reply(thread_id, APICalls.advice)
+                        }
+                        menu.choice "Write a reply", -> {
+                            body = prompt.ask ("Enter your reply\n")
+                            User.find(user_id).create_reply(thread_id,body)
+                        }
+                    end
                     ForumThread.find(thread_id).print_forum_thread
                     thread_menu(thread_id)
                 }

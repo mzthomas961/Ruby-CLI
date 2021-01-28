@@ -4,14 +4,8 @@ class User < ActiveRecord::Base
     has_many :forum_threads 
 
     #Return user's total post count by user ID
-    def self.return_post_count(id)
-
-        if id == nil
-            " "
-        else 
+    def return_post_count
             "Post count: #{replies.count}"
-        end
-
     end
 
     #Delete a post, verify against user id - currently unused
@@ -28,7 +22,7 @@ class User < ActiveRecord::Base
     # Removes user id from their replies/posts and deletes user
     def delete_account
 
-        replies.each { |reply|
+        self.replies.each { |reply|
             reply.update(user_id: nil)
         }
 
