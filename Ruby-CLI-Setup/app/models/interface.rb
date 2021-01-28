@@ -75,15 +75,14 @@ class Interface
 
         chosen_thread = prompt.select("Choose a thread!") do |menu|
             all_threads.each{ |ft| menu.choice "#{ft.title}", -> {
-                ForumThread.find(ft.id).print_forum_thread
+                ft.print_forum_thread
                 thread_menu(ft.id)
                 }
             }
 
             #Ensure guests cannot change settings or create threads
-            if user_id != nil
+            if user_id
                 menu.choice "Create new thread\n".bold, ->  { thread_starter }
-           
                 menu.choice "Settings".bold, -> {user_settings}
             end
 

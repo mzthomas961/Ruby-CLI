@@ -3,22 +3,13 @@ class User < ActiveRecord::Base
     has_many :replies
     has_many :forum_threads 
 
-    #Return all of a user's replies/posts
-    def show_all_replies
-
-        Reply.all.select { |reply|
-            (reply.user_id == self.id)
-        }
-
-    end
-
     #Return user's total post count by user ID
     def self.return_post_count(id)
 
         if id == nil
             " "
         else 
-            "Post count: #{User.find(id).show_all_replies.count}"
+            "Post count: #{replies.count}"
         end
 
     end
@@ -37,11 +28,11 @@ class User < ActiveRecord::Base
     # Removes user id from their replies/posts and deletes user
     def delete_account
 
-        Reply.where(user_id: self.id).each { |reply|
+        replies.each { |reply|
             reply.update(user_id: nil)
         }
 
-        ForumThread.where(user_id: self.id).each { |thread|
+        forum_threads.each { |thread|
             thread.update(user_id: nil)
         }
 

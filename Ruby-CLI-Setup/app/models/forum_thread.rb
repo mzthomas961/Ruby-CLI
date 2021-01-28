@@ -8,7 +8,7 @@ class ForumThread < ActiveRecord::Base
 
       table << ["\n#{User.return_username(self.user_id)} \n#{User.return_post_count(user_id)}", "#{self.created_at}\n\n#{self.body}"]
     
-      Reply.where(forum_thread_id: self.id).each { |reply|
+      replies.each { |reply|
         table << ["#{"─"*20}", "#{"─"*50}"]
         table << reply.reply_array
       }
