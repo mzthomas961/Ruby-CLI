@@ -21,6 +21,7 @@ class Interface
                 user_id = nil
                 show_threads
             }
+            menu.choice "Exit", -> {exit}
         end
         
     end
@@ -30,7 +31,7 @@ class Interface
 
         username = prompt.ask("Choose a username!\n")
         while User.find_by(username: username) || username == ""
-            puts "Invalid username - please try another\n"
+            puts "Taken/blank username - please try another\n"
             username = prompt.ask("Choose a username!\n")
         end
 
