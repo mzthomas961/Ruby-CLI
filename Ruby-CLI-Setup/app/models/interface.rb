@@ -111,7 +111,7 @@ class Interface
 
         prompt.select ("What would you like to do?") do |menu|
             #Ensure guests cannot reply to threads
-            if user_id != nil
+            if user_id
                 menu.choice "Reply to thread", -> {
                     prompt.select("How would you like to reply?") do |menu|
                         menu.choice "Random cat fact!", -> {
