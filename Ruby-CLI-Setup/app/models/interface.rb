@@ -13,7 +13,7 @@ class Interface
 
     #Start app - open login/create acct menu, or login as Guest
     def welcome
-       
+        self.user_id = nil
         prompt.select("\nWelcome to the Forum! Choose an action - /n (Press Esc at any time to return to this menu!") do |menu|
             menu.choice "Login", -> {login}
             menu.choice "Create Account", -> {account_creation}
