@@ -31,7 +31,7 @@ class Interface
 
         username = prompt.ask("Choose a username!\n")
         while User.find_by(username: username) || username == ""
-            puts "Taken/blank username - please try another\n"
+            puts "Username taken - please try another\n"
             username = prompt.ask("Choose a username!\n")
         end
 
